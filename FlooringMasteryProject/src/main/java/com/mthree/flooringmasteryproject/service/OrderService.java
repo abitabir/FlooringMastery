@@ -11,17 +11,21 @@ import com.mthree.flooringmasteryproject.model.Order;
 import com.mthree.flooringmasteryproject.model.Product;
 import com.mthree.flooringmasteryproject.model.Tax;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author khali
  */
+@Service
 public class OrderService implements OrderServiceInterface {
     
     private OrderDAO orderDAO;
@@ -29,6 +33,7 @@ public class OrderService implements OrderServiceInterface {
     private TaxDAO taxDAO;
     private Connection connection;
     
+    @Autowired
     public OrderService(OrderDAO orderDAO, ProductDAO productDAO, TaxDAO taxDAO, Connection dbCon) {
         this.orderDAO = orderDAO;
         this.productDAO = productDAO;
@@ -36,20 +41,32 @@ public class OrderService implements OrderServiceInterface {
         this.connection = dbCon;
     }
 
-    BigDecimal calulateMaterialCost(BigDecimal area, BigDecimal costPerSquareFoot) {
-        return area.multiply(costPerSquareFoot);
+    public BigDecimal calculateMaterialCost(BigDecimal area, BigDecimal costPerSquareFoot) {
+        if (area == null || costPerSquareFoot == null || area.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Invalid area or cost per square foot");
+        }
+        return area.multiply(costPerSquareFoot).setScale(2, RoundingMode.HALF_UP);
     }
 
-    BigDecimal calulateLaborCost(BigDecimal area, BigDecimal laborCostPerSquareFoot) {
-        return area.multiply(laborCostPerSquareFoot);
+    public BigDecimal calculateLaborCost(BigDecimal area, BigDecimal laborCostPerSquareFoot) {
+        if (area == null || laborCostPerSquareFoot == null || area.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Invalid area or labor cost per square foot");
+        }
+        return area.multiply(laborCostPerSquareFoot).setScale(2, RoundingMode.HALF_UP);
     }
 
-    BigDecimal calulateTax(BigDecimal materialCost, BigDecimal laborCost, BigDecimal taxRate) {
-        return taxRate.divide(BigDecimal.valueOf(100)).multiply(materialCost.add(laborCost));
+    public BigDecimal calculateTax(BigDecimal materialCost, BigDecimal laborCost, BigDecimal taxRate) {
+        if (materialCost == null || laborCost == null || taxRate == null || taxRate.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Invalid cost or tax rate");
+        }
+        return materialCost.add(laborCost).multiply(taxRate.divide(new BigDecimal(100), 4, RoundingMode.HALF_UP)).setScale(2, RoundingMode.HALF_UP);
     }
 
-    BigDecimal calulateTotal(BigDecimal materialCost, BigDecimal laborCost, BigDecimal tax) {
-        return materialCost.add(laborCost).add(tax);
+    public BigDecimal calculateTotal(BigDecimal materialCost, BigDecimal laborCost, BigDecimal tax) {
+        if (materialCost == null || laborCost == null || tax == null) {
+            throw new IllegalArgumentException("Invalid cost values");
+        }
+        return materialCost.add(laborCost).add(tax).setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override
@@ -57,10 +74,10 @@ public class OrderService implements OrderServiceInterface {
         BigDecimal taxRate = getTaxRate(state);
         BigDecimal costPerSquareFoot = getCostPerSquareFoot(productType);
         BigDecimal laborCostPerSquareFoot = getLaborCostPerSquareFoot(productType);
-        BigDecimal materialCost = calulateMaterialCost(area, costPerSquareFoot);
-        BigDecimal laborCost = calulateLaborCost(area, laborCostPerSquareFoot);
-        BigDecimal tax = calulateTax(materialCost, laborCost, taxRate);
-        BigDecimal total = calulateTotal(materialCost, laborCost, tax);
+        BigDecimal materialCost = calculateMaterialCost(area, costPerSquareFoot);
+        BigDecimal laborCost = calculateLaborCost(area, laborCostPerSquareFoot);
+        BigDecimal tax = calculateTax(materialCost, laborCost, taxRate);
+        BigDecimal total = calculateTotal(materialCost, laborCost, tax);
         Order order = new Order(customerName, state, taxRate, productType, area, costPerSquareFoot, laborCostPerSquareFoot, materialCost, laborCost, tax, total, date);
         return orderDAO.createOrder(connection, order);
     }
@@ -70,10 +87,10 @@ public class OrderService implements OrderServiceInterface {
         BigDecimal taxRate = getTaxRate(state);
         BigDecimal costPerSquareFoot = getCostPerSquareFoot(productType);
         BigDecimal laborCostPerSquareFoot = getLaborCostPerSquareFoot(productType);
-        BigDecimal materialCost = calulateMaterialCost(area, costPerSquareFoot);
-        BigDecimal laborCost = calulateLaborCost(area, laborCostPerSquareFoot);
-        BigDecimal tax = calulateTax(materialCost, laborCost, taxRate);
-        BigDecimal total = calulateTotal(materialCost, laborCost, tax);
+        BigDecimal materialCost = calculateMaterialCost(area, costPerSquareFoot);
+        BigDecimal laborCost = calculateLaborCost(area, laborCostPerSquareFoot);
+        BigDecimal tax = calculateTax(materialCost, laborCost, taxRate);
+        BigDecimal total = calculateTotal(materialCost, laborCost, tax);
         Order order = new Order(orderNumber, customerName, state, taxRate, productType, area, costPerSquareFoot, laborCostPerSquareFoot, materialCost, laborCost, tax, total, date);
         orderDAO.updateOrder(connection, order);
     }
@@ -85,7 +102,8 @@ public class OrderService implements OrderServiceInterface {
     
     @Override
     public Order getOrderByNumberAndDate(int orderNumber, LocalDate date) throws SQLException {
-        return orderDAO.readOrder(connection, orderNumber, date, new Order());
+        Order order = orderDAO.readOrder(connection, orderNumber, date, new Order());
+        return order.getOrderNumber() != null ? order : null;
     }
     
     @Override
@@ -129,21 +147,58 @@ public class OrderService implements OrderServiceInterface {
     }
     
     public boolean validateCustomerName(String customerName) {
-        String regex = "[a-z0-9,.]+(\s[a-z0-9,.]+)*";
+        String regex = "^[a-zA-Z,.]+(\\s[a-zA-Z,.]+)*$";
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(customerName);
         return matcher.find();
     }
 
     public boolean validateState(String state) throws SQLException {
-        return getAvailableStates().contains(state);
+        String regex = "^[A-Z]{2}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(state);
+        return matcher.find() && getAvailableStates().contains(state);
     }
 
     public boolean validateProductType(String product) throws SQLException {
-        return getAvailableProducts().contains(product);
+        String regex = "^[A-Z][a-z]+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(product);
+        return matcher.find() && getAvailableProducts().contains(product);
     }
 
-    public boolean validateArea(BigDecimal areaInput) {
-        return areaInput.compareTo(new BigDecimal(100)) < 0;
+    public boolean validateArea(String areaInput) {
+        String regex = "^[0-9]+(?:\\.[0-9]*)?$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(areaInput);
+        return matcher.find() && new BigDecimal(areaInput).compareTo(new BigDecimal(100)) < 0;
+    }
+
+    public boolean validateOrderNumber(String orderNumber) {
+        String regex = "^\\d+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(orderNumber);
+        return matcher.find();
+    }
+    
+    public boolean validateOrderDate(String orderDate) {
+        String regex = "^(?:19|20)\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(orderDate);
+        return matcher.find();
+    }
+    
+    public String toTitleCase(String str) {
+        String regex = "\\b\\w";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(str);
+        StringBuffer result = new StringBuffer();
+        
+        while (matcher.find()) {
+            matcher.appendReplacement(result, matcher.group().toUpperCase());
+        }
+        
+        matcher.appendTail(result);
+        return result.toString();
     }
 }
