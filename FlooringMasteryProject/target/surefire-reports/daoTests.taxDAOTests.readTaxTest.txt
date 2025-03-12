@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
-Test set: daoTests.orderDAOTests.updateOrderTest
+Test set: daoTests.taxDAOTests.readTaxTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.001 s <<< FAILURE! -- in daoTests.orderDAOTests.updateOrderTest
-daoTests.orderDAOTests.updateOrderTest.updateOrderTest -- Time elapsed: 0 s <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.001 s <<< FAILURE! -- in daoTests.taxDAOTests.readTaxTest
+daoTests.taxDAOTests.readTaxTest.readTaxTest -- Time elapsed: 0 s <<< ERROR!
 java.sql.SQLNonTransientConnectionException: No operations allowed after connection closed.
 	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:110)
 	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
@@ -12,9 +12,8 @@ java.sql.SQLNonTransientConnectionException: No operations allowed after connect
 	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:73)
 	at com.mysql.cj.jdbc.ConnectionImpl.prepareStatement(ConnectionImpl.java:1649)
 	at com.mysql.cj.jdbc.ConnectionImpl.prepareStatement(ConnectionImpl.java:1565)
-	at com.mysql.cj.jdbc.ConnectionImpl.prepareStatement(ConnectionImpl.java:1570)
-	at com.mthree.flooringmasteryproject.dao.OrderDAO.createOrder(OrderDAO.java:29)
-	at daoTests.orderDAOTests.updateOrderTest.updateOrderTest(updateOrderTest.java:29)
+	at com.mthree.flooringmasteryproject.dao.TaxDAO.createTax(TaxDAO.java:27)
+	at daoTests.taxDAOTests.readTaxTest.readTaxTest(readTaxTest.java:33)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -55,5 +54,5 @@ Caused by: com.mysql.cj.exceptions.ConnectionIsClosedException: No operations al
 	at com.mysql.cj.NativeSession.checkClosed(NativeSession.java:762)
 	at com.mysql.cj.jdbc.ConnectionImpl.checkClosed(ConnectionImpl.java:569)
 	at com.mysql.cj.jdbc.ConnectionImpl.prepareStatement(ConnectionImpl.java:1580)
-	... 32 more
+	... 31 more
 

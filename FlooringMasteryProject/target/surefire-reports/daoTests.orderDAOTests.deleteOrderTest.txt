@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
-Test set: daoTests.orderDAOTests.updateOrderTest
+Test set: daoTests.orderDAOTests.deleteOrderTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.001 s <<< FAILURE! -- in daoTests.orderDAOTests.updateOrderTest
-daoTests.orderDAOTests.updateOrderTest.updateOrderTest -- Time elapsed: 0 s <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.001 s <<< FAILURE! -- in daoTests.orderDAOTests.deleteOrderTest
+daoTests.orderDAOTests.deleteOrderTest.deleteOrderTest -- Time elapsed: 0 s <<< ERROR!
 java.sql.SQLNonTransientConnectionException: No operations allowed after connection closed.
 	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:110)
 	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
@@ -14,7 +14,7 @@ java.sql.SQLNonTransientConnectionException: No operations allowed after connect
 	at com.mysql.cj.jdbc.ConnectionImpl.prepareStatement(ConnectionImpl.java:1565)
 	at com.mysql.cj.jdbc.ConnectionImpl.prepareStatement(ConnectionImpl.java:1570)
 	at com.mthree.flooringmasteryproject.dao.OrderDAO.createOrder(OrderDAO.java:29)
-	at daoTests.orderDAOTests.updateOrderTest.updateOrderTest(updateOrderTest.java:29)
+	at daoTests.orderDAOTests.deleteOrderTest.deleteOrderTest(deleteOrderTest.java:27)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)

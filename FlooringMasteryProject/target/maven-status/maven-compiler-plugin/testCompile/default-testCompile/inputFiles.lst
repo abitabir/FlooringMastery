@@ -1,9 +1,9 @@
-C:\Users\khali\Documents\NetBeansProjects\FlooringMasteryProject\src\test\java\daoTests\DAOTestSuite.java
-C:\Users\khali\Documents\NetBeansProjects\FlooringMasteryProject\src\test\java\daoTests\deleteOrderTest.java
+C:\Users\khali\Documents\NetBeansProjects\FlooringMasteryProject\src\test\java\daoTests\DAOTestSuiteTest.java
+C:\Users\khali\Documents\NetBeansProjects\FlooringMasteryProject\src\test\java\daoTests\DatabaseSetupTest.java
+C:\Users\khali\Documents\NetBeansProjects\FlooringMasteryProject\src\test\java\daoTests\helpers\OrderTestHelper.java
 C:\Users\khali\Documents\NetBeansProjects\FlooringMasteryProject\src\test\java\daoTests\orderDAOTests\createOrderTest.java
 C:\Users\khali\Documents\NetBeansProjects\FlooringMasteryProject\src\test\java\daoTests\orderDAOTests\deleteOrderTest.java
 C:\Users\khali\Documents\NetBeansProjects\FlooringMasteryProject\src\test\java\daoTests\orderDAOTests\readOrderTest.java
 C:\Users\khali\Documents\NetBeansProjects\FlooringMasteryProject\src\test\java\daoTests\orderDAOTests\updateOrderTest.java
 C:\Users\khali\Documents\NetBeansProjects\FlooringMasteryProject\src\test\java\daoTests\productDAOTests\readProductTest.java
 C:\Users\khali\Documents\NetBeansProjects\FlooringMasteryProject\src\test\java\daoTests\taxDAOTests\readTaxTest.java
-C:\Users\khali\Documents\NetBeansProjects\FlooringMasteryProject\src\test\java\daoTests\updateOrderTest.java

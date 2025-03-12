@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="daoTests.orderDAOTests.updateOrderTest" time="0.001" tests="1" errors="1" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="daoTests.taxDAOTests.readTaxTest" time="0.001" tests="1" errors="1" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -59,7 +59,7 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="updateOrderTest" classname="daoTests.orderDAOTests.updateOrderTest" time="0.0">
+  <testcase name="readTaxTest" classname="daoTests.taxDAOTests.readTaxTest" time="0.0">
     <error message="No operations allowed after connection closed." type="java.sql.SQLNonTransientConnectionException"><![CDATA[java.sql.SQLNonTransientConnectionException: No operations allowed after connection closed.
 	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:110)
 	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
@@ -69,9 +69,8 @@
 	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:73)
 	at com.mysql.cj.jdbc.ConnectionImpl.prepareStatement(ConnectionImpl.java:1649)
 	at com.mysql.cj.jdbc.ConnectionImpl.prepareStatement(ConnectionImpl.java:1565)
-	at com.mysql.cj.jdbc.ConnectionImpl.prepareStatement(ConnectionImpl.java:1570)
-	at com.mthree.flooringmasteryproject.dao.OrderDAO.createOrder(OrderDAO.java:29)
-	at daoTests.orderDAOTests.updateOrderTest.updateOrderTest(updateOrderTest.java:29)
+	at com.mthree.flooringmasteryproject.dao.TaxDAO.createTax(TaxDAO.java:27)
+	at daoTests.taxDAOTests.readTaxTest.readTaxTest(readTaxTest.java:33)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -112,7 +111,7 @@ Caused by: com.mysql.cj.exceptions.ConnectionIsClosedException: No operations al
 	at com.mysql.cj.NativeSession.checkClosed(NativeSession.java:762)
 	at com.mysql.cj.jdbc.ConnectionImpl.checkClosed(ConnectionImpl.java:569)
 	at com.mysql.cj.jdbc.ConnectionImpl.prepareStatement(ConnectionImpl.java:1580)
-	... 32 more
+	... 31 more
 ]]></error>
   </testcase>
 </testsuite>

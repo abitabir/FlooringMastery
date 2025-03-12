@@ -11,7 +11,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import static daoTests.DAOTestSuite.getConnection;
+import daoTests.DAOTestSuiteTest;
 
 /**
  *
@@ -23,7 +23,7 @@ public class readTaxTest {
     public void readTaxTest() throws SQLException {
     
         TaxDAO taxDAO = new TaxDAO();
-        Connection connection = getConnection();
+        Connection connection = DAOTestSuiteTest.getConnection();
         
         Tax tax = new Tax();
         tax.setStateAbbreviation("JV");

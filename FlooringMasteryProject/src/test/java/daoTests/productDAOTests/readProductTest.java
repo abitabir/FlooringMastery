@@ -11,7 +11,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import static daoTests.DAOTestSuite.getConnection;
+import daoTests.DAOTestSuiteTest;
 
 /**
  *
@@ -22,7 +22,7 @@ public class readProductTest {
     @Test
     public void readProductTest() throws SQLException {
         ProductDAO productDAO = new ProductDAO();
-        Connection connection = getConnection();
+        Connection connection = DAOTestSuiteTest.getConnection();
 
         Product product = new Product();
         product.setProductType("Insulation");

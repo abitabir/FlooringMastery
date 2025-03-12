@@ -25,14 +25,13 @@ import java.sql.SQLException;
 public class FlooringMasteryProject {
     public static void main(String[] args) {
         try {
-            // Get connection
             // Ensure database exists before connecting
             MySQLLocalDatabaseConnection.ensureDatabaseExists();
             Connection connection = MySQLLocalDatabaseConnection.getConnection();
 
             // Set up database and tables
             DatabaseSetup dbSetup = new DatabaseSetup();
-            dbSetup.createDatabase("flooring");
+            dbSetup.createDatabase();
             dbSetup.createTable("ORDERS");
             dbSetup.createTable("PRODUCTS");
             dbSetup.createTable("TAXES");

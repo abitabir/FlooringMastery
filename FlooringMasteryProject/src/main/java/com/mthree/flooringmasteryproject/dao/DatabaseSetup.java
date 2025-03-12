@@ -13,18 +13,26 @@ import java.sql.Statement;
 public class DatabaseSetup {
 
     private final Connection connection;
+    private static final String DATABASE = System.getProperty("database.name", "flooring");
 
+
+    // Default constructor (for production)
     public DatabaseSetup() throws SQLException {
         this.connection = MySQLLocalDatabaseConnection.getConnection();
     }
 
+    // Constructor accepting connection (for testing purposes only)
+    public DatabaseSetup(Connection connection) {
+        this.connection = connection;
+    }
+
     // Create the database if it doesn’t exist
-    public void createDatabase(String databaseName) throws SQLException {
-        String createDatabaseSQL = "CREATE DATABASE IF NOT EXISTS " + databaseName;
+    public void createDatabase() throws SQLException {
+        String createDatabaseSQL = "CREATE DATABASE IF NOT EXISTS " + DATABASE;
 
         try (Statement statement = connection.createStatement()) {
             statement.execute(createDatabaseSQL);
-            System.out.println("Database ready: " + databaseName);
+            System.out.println("Database ready: " + DATABASE);
         }
     }
 

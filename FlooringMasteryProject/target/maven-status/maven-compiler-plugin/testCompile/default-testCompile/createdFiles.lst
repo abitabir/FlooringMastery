@@ -1,9 +1,9 @@
 daoTests\productDAOTests\readProductTest.class
 daoTests\orderDAOTests\updateOrderTest.class
+daoTests\helpers\OrderTestHelper.class
 daoTests\orderDAOTests\readOrderTest.class
-daoTests\DAOTestSuite.class
-daoTests\deleteOrderTest.class
-daoTests\updateOrderTest.class
+daoTests\DAOTestSuiteTest.class
 daoTests\orderDAOTests\createOrderTest.class
 daoTests\orderDAOTests\deleteOrderTest.class
 daoTests\taxDAOTests\readTaxTest.class
+daoTests\DatabaseSetupTest.class
